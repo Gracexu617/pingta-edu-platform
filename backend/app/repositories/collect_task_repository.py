@@ -1,0 +1,13 @@
+from typing import Protocol
+
+from app.domain.collect_task import CollectTask
+
+
+class CollectTaskRepository(Protocol):
+    async def list(self) -> list[CollectTask]: ...
+
+    async def get(self, task_id: int) -> CollectTask | None: ...
+
+    async def create(self, task: CollectTask) -> CollectTask: ...
+
+    async def update(self, task: CollectTask) -> CollectTask: ...

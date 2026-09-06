@@ -1,0 +1,356 @@
+@import "tailwindcss";
+
+:root {
+  /* 蓝白学院风 + 液态玻璃 (macOS Liquid Glass) 设计令牌 */
+  --background: #e9f1fb;
+  --surface: #ffffff;
+  --surface-soft: rgba(255, 255, 255, 0.6);
+  --foreground: #16243b;
+  --muted: #5b6b82;
+  --border: #d6e2f2;
+  --border-strong: #c3d4ea;
+
+  /* 学术蓝（略加深，更有分量） */
+  --primary: #164b86;
+  --primary-hover: #0f3a6b;
+  --primary-soft: #e6f0fb;
+  --accent: #0f3a6b;
+
+  /* 学院派金线点缀 */
+  --gold: #b18a4a;
+  --gold-soft: #d8c39a;
+
+  /* 玻璃 (Glassmorphism) 令牌 */
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-bg-strong: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-border-strong: rgba(255, 255, 255, 0.85);
+  --glass-shadow: 0 8px 32px rgba(31, 41, 80, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  --glass-blur: blur(22px) saturate(180%);
+
+  /* 字体：中文用思源/苹方，西文衬线用 Playfair 提升品牌质感 */
+  --font-sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui,
+    -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong",
+    Georgia, "Times New Roman", serif;
+  --font-display: "Playfair Display", "Noto Serif SC", "Songti SC", serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+    Monaco, Consolas, monospace;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-gold: var(--gold);
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  /* 极简高级的柔光渐变底（玻璃面板会折射这些柔色光晕） */
+  background-color: #eaeffb;
+  background-image:
+    radial-gradient(at 8% 12%, rgba(80, 140, 220, 0.30) 0, transparent 42%),
+    radial-gradient(at 92% 8%, rgba(177, 138, 74, 0.16) 0, transparent 40%),
+    radial-gradient(at 78% 88%, rgba(60, 110, 200, 0.26) 0, transparent 46%),
+    radial-gradient(at 18% 92%, rgba(150, 195, 245, 0.30) 0, transparent 44%),
+    linear-gradient(180deg, #f4f8fe 0%, #e7eefb 100%);
+  background-attachment: fixed;
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  letter-spacing: 0.012em;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* 顶部细蓝金线，学院派门面 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--primary) 0%,
+    #2f6fb0 55%,
+    var(--gold) 100%
+  );
+  z-index: 50;
+}
+
+h1, h2, h3, h4 {
+  letter-spacing: -0.01em;
+}
+
+.font-academic {
+  font-family: var(--font-serif);
+  letter-spacing: 0.01em;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+}
+
+/* 小字 eyebrow：金/蓝、宽字距、西文衬线，提升层级 */
+.eyebrow {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+textarea.font-mono {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* 液态玻璃基础类 */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+/* 输入框 / 下拉 —— 玻璃质感 */
+.field {
+  width: 100%;
+  border-radius: 11px;
+  border: 1px solid var(--glass-border-strong);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  padding: 10px 12px;
+  color: var(--foreground);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(22, 75, 134, 0.16);
+}
+
+/* 统一玻璃卡：磨砂 + 轻微高光 + 柔和阴影 + 悬停抬升 */
+.card {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.72),
+    rgba(255, 255, 255, 0.42)
+  );
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  box-shadow: var(--glass-shadow);
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.card:not(.page-header):hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 40px -12px rgba(20, 40, 80, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.card-soft {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  box-shadow: 0 6px 22px -10px rgba(20, 40, 80, 0.18);
+}
+
+.card-dashed {
+  background: rgba(255, 255, 255, 0.42);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px dashed rgba(22, 75, 134, 0.28);
+  border-radius: 18px;
+}
+
+/* 卡片标题：左侧蓝金渐变竖条 + 衬线，强化层级 */
+.card-head {
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(22, 75, 134, 0.14);
+}
+
+.card-title {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--foreground);
+  position: relative;
+  padding-left: 13px;
+}
+
+.card-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 3px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--primary), var(--gold));
+}
+
+.card-note {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--muted);
+  padding-left: 13px;
+}
+
+/* 页面级页眉：金色左条 + eyebrow + 衬线大标题 */
+.page-header {
+  border-left: 3px solid var(--gold);
+}
+
+.page-header h2 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+}
+
+/* 浅蓝信息块 */
+.chip {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: 12px;
+}
+
+.chip-error {
+  background: rgba(180, 35, 35, 0.1);
+  border-radius: 12px;
+}
+
+/* 状态胶囊 */
+.pill {
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+/* 按钮 —— 玻璃高光 + 蓝色渐变 */
+.primary-button,
+.secondary-button,
+.danger-button {
+  min-height: 38px;
+  border-radius: 11px;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.15s ease, border-color 0.15s ease,
+    box-shadow 0.15s ease, transform 0.05s ease;
+}
+
+.primary-button {
+  background: linear-gradient(180deg, #2f6fb0, #164b86);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.28) inset,
+    0 6px 18px -6px rgba(22, 75, 134, 0.5);
+}
+
+.primary-button:hover {
+  background: linear-gradient(180deg, #3a7cc0, #0f3a6b);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.34) inset,
+    0 10px 24px -8px rgba(22, 75, 134, 0.6);
+}
+
+.primary-button:active {
+  transform: translateY(1px);
+}
+
+.secondary-button {
+  border: 1px solid var(--glass-border-strong);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  color: var(--primary);
+}
+
+.secondary-button:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.danger-button {
+  border: 1px solid rgba(230, 160, 150, 0.6);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  color: #b42323;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.danger-button:hover {
+  background: rgba(253, 236, 236, 0.85);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+::selection {
+  background: rgba(22, 75, 134, 0.2);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(150, 175, 210, 0.7) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(150, 175, 210, 0.7);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(110, 145, 195, 0.9);
+  background-clip: content-box;
+}

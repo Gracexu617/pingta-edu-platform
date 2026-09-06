@@ -1,0 +1,13 @@
+from typing import Protocol
+
+from app.domain.material import Material
+
+
+class MaterialRepository(Protocol):
+    async def list(self) -> list[Material]: ...
+
+    async def get(self, material_id: int) -> Material | None: ...
+
+    async def create(self, material: Material) -> Material: ...
+
+    async def update(self, material: Material) -> Material: ...
